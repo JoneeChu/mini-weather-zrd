@@ -19,8 +19,11 @@ public class MyApplication extends Application {
     private static MyApplication mApplication;
     private CityDB mCityDB;
     private List<City> mCityList;
+    private ArrayList<String> cityName=new ArrayList<String>();
+    private ArrayList<String> cityCode=new ArrayList<String>();
     @Override
     public void onCreate(){
+
         super.onCreate();
         Log.d(TAG,"MyApplication->Oncreate");
         mApplication=this;
@@ -39,9 +42,12 @@ public class MyApplication extends Application {
 
     }
     private boolean prepareCityList() {
+
         mCityList = mCityDB.getAllCity();
         int i=0;
         for (City city : mCityList) {
+            cityName.add(city.getCity());
+            cityCode.add(city.getNumber());
             i++;
             String cityName = city.getCity();
             String cityCode = city.getNumber();
@@ -55,6 +61,13 @@ public class MyApplication extends Application {
     }
     public static MyApplication getInstance(){
         return mApplication;
+    }
+    public ArrayList<String> getCityName()
+    {
+        return this.cityName;
+    }
+    public ArrayList<String> getCityCode(){
+        return this.cityCode;
     }
     private CityDB openCityDB() {
         String path = "/data"

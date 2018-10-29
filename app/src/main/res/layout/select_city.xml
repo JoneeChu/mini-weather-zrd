@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/second"
         android:layout_width="fill_parent"
         android:layout_height="45.0dip"
         android:background="#ffcd2626">
@@ -27,8 +28,21 @@
             android:layout_height="40dip"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:layout_toRightOf="@+id/title_back"
+            android:layout_toRightOf="@id/title_back"
             android:background="#A71717"
             android:gravity="center"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/second">
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FF36C882">
+
+        </ListView>
+
     </RelativeLayout>
 </RelativeLayout>
