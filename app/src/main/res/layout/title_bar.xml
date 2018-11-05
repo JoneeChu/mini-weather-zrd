@@ -45,4 +45,12 @@
         android:layout_height="45dp"
         android:layout_toLeftOf="@id/title_sahre"
         android:src="@drawable/base_action_bar_action_city"/>
+
+    <ProgressBar
+        android:id="@+id/title_update_progress"
+        style="@style/title_update_progress_style"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 </RelativeLayout>

@@ -10,9 +10,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:usesCleartextTraffic="true">
         <activity android:name=".MainActivity"
-            android:label="This is MainActivity">//指定具体注册的活动名称，这里省略了包名,指定活动中标题栏的内容
+            android:label="This is MainActivity"><!--指定具体注册的活动名称，这里省略了包名,指定活动中标题栏的内容-->
             <intent-filter>//配置主活动
                 <action android:name="android.intent.action,MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

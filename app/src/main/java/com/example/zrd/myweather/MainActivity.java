@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import java.net.URL;
 public class MainActivity extends Activity implements View.OnClickListener {
     private static final int UPDATE_TODAY_WEATHER = 1;
     private ImageView mUpdateBtn;
+    private ProgressBar bar;
     private ImageView mCitySelect;
     private TextView cityTv, timeTv, humidityTv, weekTv, pmDataTv, pmQualityTv, temperatureTv, climateTv, windTv, city_name_Tv;
     private ImageView weatherImg, pmImg;
@@ -60,12 +62,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Log.d("myWeather", "网络挂了");
             Toast.makeText(MainActivity.this, "网络挂了！", Toast.LENGTH_LONG).show();
         }
-        mCitySelect = (ImageView) findViewById(R.id.title_city_manager);
-        mCitySelect.setOnClickListener(this);
         initView();
+        mCitySelect.setOnClickListener(this);
+
+        bar.setVisibility(ProgressBar.INVISIBLE);
     }
 
     void initView() {
+        mCitySelect = (ImageView) findViewById(R.id.title_city_manager);//小房子
+        bar = findViewById(R.id.title_update_progress);
         city_name_Tv = (TextView) findViewById(R.id.title_city_name);
         cityTv = (TextView) findViewById(R.id.city);
         timeTv = (TextView) findViewById(R.id.time);
@@ -104,6 +109,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         windTv.setText("风力:" + todayWeather.getFengli());
         // city_name_Tv.setText();
         Toast.makeText(MainActivity.this, "更新成功！", Toast.LENGTH_SHORT).show();
+        bar.setVisibility(View.INVISIBLE);
+        mCitySelect.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -129,6 +136,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1 && resultCode == RESULT_OK) {
+            mCitySelect.setVisibility(View.INVISIBLE);
+            bar.setVisibility(View.VISIBLE);
             String newCityCode = data.getStringExtra("cityCode");
             Log.d("myWeather", "选择城市的代码" + newCityCode);
 
@@ -147,10 +156,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
      */
     private void queryWeatherCode(String cityCode) {
         final String address = "http://wthrcdn.etouch.cn/WeatherApi?citykey=" + cityCode;
-        Log.d("myWeather", address);
+        Log.d("myWeather1", address);
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Log.d("liu","zhu");
                 HttpURLConnection con = null;
                 TodayWeather todayWeather = null;
                 try {
@@ -163,7 +173,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     StringBuilder response = new StringBuilder();
                     String str;
-                    System.out.print("run");
+                    Log.d("liu","run");
                     while ((str = reader.readLine()) != null) {
                         response.append(str);
                         Log.d("myWeather", str);
@@ -171,6 +181,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     String responseStr = response.toString();
                     Log.d("myWeather", responseStr);
                     todayWeather = parseXML(responseStr);
+                    Log.d("liu",todayWeather.getCity());
                     if (todayWeather != null) {
                         Log.d("myWeather", todayWeather.toString());
                         Message msg = new Message();
@@ -191,6 +202,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private TodayWeather parseXML(String xmldata) {
+        Log.d("liu","parse is starting!");
         TodayWeather todayWeather = null;
         int fengxiangCount = 0;
         int fengliCount = 0;
@@ -275,6 +287,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.d("liu","paser is ending");
         return todayWeather;
     }
 }
